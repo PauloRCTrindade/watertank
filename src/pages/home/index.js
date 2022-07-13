@@ -5,7 +5,11 @@ import { ref, onValue } from "firebase/database";
 
 import { database } from "../../data";
 
+import { useDispatch } from 'react-redux'
 
+import { changeValueState } from '../../Redux/valueSensorSlice'
+
+export var animateWaveStyle = 0
 
 export default function Home() {
 
@@ -13,6 +17,11 @@ export default function Home() {
   const [percentageValue, setPercentageValue] = useState(100);
   const [percentageText, setPercentageText] = useState()
   const [percentageApi, setPercentageApi] = useState(100)
+
+  const [animateWave, setAnimateWave] = useState(100);
+  
+
+  const dispatch = useDispatch()
 
   function decrementPercentage() {
 
@@ -31,18 +40,26 @@ export default function Home() {
   }
 
   function getApi() {
-    const sensorvalue = ref(database, 'teste/');
-        onValue(sensorvalue, (snapshot) => {
-          const data = snapshot.val();
-          setNewGetApi(true)
-         // setPercentageApi(data)
-         setPercentageText(data)
-        });   
+    const sensorvalue = ref(database, 'sensorValue/');
+    const animateWaveData = ref(database,'animateWave/')
+
+    onValue(sensorvalue, (snapshot) => {
+      const data = snapshot.val();
+      setNewGetApi(true)
+      setPercentageApi(data)
+      setPercentageText(data)
+      dispatch( changeValueState(data))
+    });
+
+    onValue(animateWaveData,(snapshot) =>{
+      const data = snapshot.val();
+      setAnimateWave(data)
+      animateWaveStyle = data;
+    })
 
   }
 
   useEffect(() => {
-
     getApi()
 
   }, [percentageApi])
