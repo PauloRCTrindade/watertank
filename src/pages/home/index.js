@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Header, Percentage, Wave } from "./style";
 
 import { ref, onValue } from "firebase/database";
 
@@ -8,6 +7,16 @@ import { database } from "../../data";
 import { useDispatch } from 'react-redux'
 
 import { changeValueState } from '../../Redux/valueSensorSlice'
+
+import {
+  Header,
+  LastDetectionText,
+  LastDetectionTitle,
+  LastDetecton,
+  Percentage,
+  Wave
+} from "./style";
+
 
 export var animateWaveStyle = 0
 
@@ -19,7 +28,10 @@ export default function Home() {
   const [percentageApi, setPercentageApi] = useState(100)
 
   const [animateWave, setAnimateWave] = useState(100);
-  
+
+  const [lastDetection, setLastDetection] = useState();
+
+
 
   const dispatch = useDispatch()
 
@@ -41,20 +53,26 @@ export default function Home() {
 
   function getApi() {
     const sensorvalue = ref(database, 'sensorValue/');
-    const animateWaveData = ref(database,'animateWave/')
+    const animateWaveData = ref(database, 'animateWave/')
+    const lastDetection = ref(database, 'lastDetection/')
 
     onValue(sensorvalue, (snapshot) => {
       const data = snapshot.val();
       setNewGetApi(true)
       setPercentageApi(data)
       setPercentageText(data)
-      dispatch( changeValueState(data))
+      dispatch(changeValueState(data))
     });
 
-    onValue(animateWaveData,(snapshot) =>{
+    onValue(animateWaveData, (snapshot) => {
       const data = snapshot.val();
       setAnimateWave(data)
       animateWaveStyle = data;
+    })
+
+    onValue(lastDetection, (snapshot) => {
+      const data = snapshot.val();
+      setLastDetection(data);
     })
 
   }
@@ -73,6 +91,12 @@ export default function Home() {
     <>
       <Header>
         <Percentage>{percentageText}%</Percentage>
+
+        <LastDetecton>
+          <LastDetectionText>{lastDetection}</LastDetectionText>
+        <LastDetectionTitle>{'Última Detectção'}</LastDetectionTitle>
+        </LastDetecton>
+        
       </Header>
       <Wave />
     </>

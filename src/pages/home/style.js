@@ -6,10 +6,11 @@ import { animateWaveStyle } from '.'
 
 export const Header = styled.div`
 display: flex;
+flex-direction: column;
 justify-content: center;
 align-items: center;
 width: 100%;
-height:10rem;`
+height:20rem;`
 
 
 
@@ -79,8 +80,34 @@ animation: ${animateWave} 3s  forwards  ;
 
 export const Percentage = styled.div`
 font-size: 8rem;
-color: white;
+color: rgb(162, 234, 242);
 font-family: 'Roboto';
+`
+
+export const LastDetecton = styled.div`
+display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
+
+background-color: rgb(162, 234, 242);
+
+width: 12rem;
+height: 4rem;
+border-radius: 12px;
+`
+
+export const LastDetectionText = styled.div`
+font-size: 2rem;
+font-family: 'Roboto';
+color: rgb(19, 25, 37) ;
+`
+
+export const LastDetectionTitle = styled.div`
+font-size: 1rem;
+font-family: 'Roboto';
+color: rgb(19, 25, 37) ;
+
 `
 
 
