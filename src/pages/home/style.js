@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import waveImg  from '../assets/wave.svg'
+import waveImg from '../assets/wave.svg'
 
 
 export const Header = styled.div`
@@ -14,8 +14,7 @@ from {
   transform: translateY(0);
 }
 to {
-  transform: translateY(40%);
-  height: calc(100vh - 50rem); 
+  transform: translateY(80%);
 }
 
 `
@@ -28,11 +27,12 @@ width: 100%;
 height: calc(100vh - 4rem);
 background: url(${waveImg});
 background-size: cover;
-animation: ${animate} 3s  ;
+animation: ${animate} 3s  forwards  ;
+
 `
 
 export const Percentage = styled.div`
-font-size: 8rem;
+font-size: 2rem;
 color: white;
 font-family: 'Roboto';
 `
