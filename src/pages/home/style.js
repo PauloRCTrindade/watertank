@@ -107,7 +107,6 @@ export const LastDetectionTitle = styled.div`
 font-size: 1rem;
 font-family: 'Roboto';
 color: rgb(19, 25, 37) ;
-
 `
 
 
