@@ -30,18 +30,15 @@
 
 
   
-<script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "da2ceb2d-fc6d-423d-bf37-6da9288b955c",
-      safari_web_id: "",
-      notifyButton: {
-        enable: true,
-      },
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "da2ceb2d-fc6d-423d-bf37-6da9288b955c",
+      });
     });
-  });
-</script>
+  </script>
 
 </head>
 

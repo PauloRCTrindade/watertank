@@ -17,6 +17,11 @@ import {
   Wave
 } from "./style";
 
+import axios from 'axios';
+
+
+
+
 
 export var animateWaveStyle = 0
 
@@ -52,6 +57,37 @@ export default function Home() {
   }
 
   function getApi() {
+    const options = {
+      method: 'POST',
+      url: 'https://onesignal.com/api/v1/notifications',
+      headers: {
+        Accept: 'application/json',
+        Authorization: 'Basic OWI3MTU4ZjEtOGY4OS00MDczLWExMzUtYWVjNDMzMTkxMTE1',
+        'Content-Type': 'application/json'
+      },
+      data: {
+        included_segments: ['Subscribed Users'],
+        contents: {en: 'English or Any Language Message', es: 'Spanish Message'},
+        name: 'INTERNAL_CAMPAIGN_NAME'
+      }
+    };
+    
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
+
+
+
+
+
+
+
+
+
+
+
     const sensorvalue = ref(database, 'sensorValue/');
     const animateWaveData = ref(database, 'animateWave/')
     const lastDetection = ref(database, 'lastDetection/')
