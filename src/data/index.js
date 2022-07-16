@@ -1,13 +1,21 @@
+
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  // ...
-  // The value of `databaseURL` depends on the location of the database
-  databaseURL: "https://watertank-99754-default-rtdb.firebaseio.com/",
+  apiKey: "AIzaSyAxFnYY9fpa94_JkpVeXeaOP2RHiUAJECw",
+  authDomain: "watertank-99754.firebaseapp.com",
+  databaseURL: "https://watertank-99754-default-rtdb.firebaseio.com",
+  projectId: "watertank-99754",
+  storageBucket: "watertank-99754.appspot.com",
+  messagingSenderId: "206975631492",
+  appId: "1:206975631492:web:fdc3fc3276c2285c8e02d1"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

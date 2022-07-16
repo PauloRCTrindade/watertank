@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux'
 
 import { changeValueState } from '../../Redux/valueSensorSlice'
 
+import waterImg from '../assets/waterIcon.png'
+
 import {
   Header,
   LastDetectionText,
@@ -16,12 +18,6 @@ import {
   Percentage,
   Wave
 } from "./style";
-
-import axios from 'axios';
-
-
-
-
 
 export var animateWaveStyle = 0
 
@@ -32,11 +28,12 @@ export default function Home() {
   const [percentageText, setPercentageText] = useState()
   const [percentageApi, setPercentageApi] = useState(100)
 
+  const [pushMensage, setPushMensage] = useState(false);
+
+
   const [animateWave, setAnimateWave] = useState(100);
 
   const [lastDetection, setLastDetection] = useState();
-
-
 
   const dispatch = useDispatch()
 
@@ -56,37 +53,42 @@ export default function Home() {
     )
   }
 
-  function getApi() {
+  async function mensagePush() {
+
+    const title = 'Algo de errado não está certo!'
     const options = {
-      method: 'POST',
-      url: 'https://onesignal.com/api/v1/notifications',
-      headers: {
-        Accept: 'application/json',
-        Authorization: 'Basic OWI3MTU4ZjEtOGY4OS00MDczLWExMzUtYWVjNDMzMTkxMTE1',
-        'Content-Type': 'application/json'
-      },
-      data: {
-        included_segments: ['Subscribed Users'],
-        contents: {en: 'English or Any Language Message', es: 'Spanish Message'},
-        name: 'INTERNAL_CAMPAIGN_NAME'
-      }
-    };
+      body:"A caixa d'água está abaixo dee 70%",
+      icon:{waterImg}
+
+    }
+
+    const status = localStorage.getItem('status')
+
+    if(status !== 'granted'){
+      await Notification.requestPermission(status => {
+        localStorage.setItem('status',status)
+        console.log('Notification permission status: ', status)
+      })}
     
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-    }).catch(function (error) {
-      console.error(error);
-    });
 
+    if (percentageApi < 70 && pushMensage === false) {
 
+      if (Notification.permission === 'granted') {
 
+        await navigator.serviceWorker.getRegistration().then(reg => {
+          reg.showNotification(title,options)
+        })
+      }
 
+      setPushMensage(true)
+    }
 
+    if (percentageApi > 70){
+      setPushMensage(false)
+    }
+  }
 
-
-
-
-
+  async function getApi() {
 
     const sensorvalue = ref(database, 'sensorValue/');
     const animateWaveData = ref(database, 'animateWave/')
@@ -115,7 +117,7 @@ export default function Home() {
 
   useEffect(() => {
     getApi()
-
+    mensagePush()
   }, [percentageApi])
 
   useEffect(() => {
@@ -130,9 +132,9 @@ export default function Home() {
 
         <LastDetecton>
           <LastDetectionText>{lastDetection}</LastDetectionText>
-        <LastDetectionTitle>{'Última Detectção'}</LastDetectionTitle>
+          <LastDetectionTitle>{'Última Detectção'}</LastDetectionTitle>
         </LastDetecton>
-        
+
       </Header>
       <Wave />
     </>
