@@ -16,8 +16,6 @@ height:20rem;`
 
 const animateWave = () => {
 
-  console.log(animateWaveStyle)
-
   if (animateWaveStyle === 100) {
     return keyframes`
       from {
