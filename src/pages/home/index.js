@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 
 import { ref, onValue } from "firebase/database";
@@ -53,6 +54,7 @@ export default function Home() {
       const data = snapshot.val();
       setAnimateWave(data)
       animateWaveStyle = data;
+      console.log(animateWave)
     })
 
     onValue(lastDetection, (snapshot) => {
