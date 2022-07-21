@@ -16,7 +16,7 @@ height:20rem;`
 
 const animateWave = () => {
 
-  if (animateWaveStyle === 100) {
+  if (animateWaveStyle <= 100 &&  animateWaveStyle > 75) {
     return keyframes`
       from {
         transform: translateY(0);
@@ -25,7 +25,7 @@ const animateWave = () => {
         transform: translateY(0%);
       }`
 
-  } else if (animateWaveStyle === 75) {
+  } else if (animateWaveStyle <= 75 && animateWaveStyle > 50) {
     return keyframes`
       from {
         transform: translateY(0);
@@ -34,7 +34,7 @@ const animateWave = () => {
         transform: translateY(15%);
       }`
 
-  } else if (animateWaveStyle === 50) {
+  } else if (animateWaveStyle <=50 && animateWaveStyle > 25) {
     return keyframes`
       from {
         transform: translateY(0);
@@ -43,7 +43,7 @@ const animateWave = () => {
         transform: translateY(30%);
       }`
 
-  } else if (animateWaveStyle === 25) {
+  } else if (animateWaveStyle <= 25 ) {
     return keyframes`
       from {
       transform: translateY(0);

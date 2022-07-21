@@ -13,9 +13,6 @@ import waterImg from '../assets/waterIcon.png'
 
 import {
   Header,
-  LastDetectionText,
-  LastDetectionTitle,
-  LastDetecton,
   Percentage,
   Wave
 } from "./style";
@@ -32,35 +29,27 @@ export default function Home() {
   const [listAlert, setListAlert] = useState("firstAlert");
   const [pushMensage, setPushMensage] = useState(false);
 
-  const [animateWave, setAnimateWave] = useState(100);
-  const [lastDetection, setLastDetection] = useState();
-
   const dispatch = useDispatch()
 
   async function getApi() {
     const sensorvalue = ref(database, 'sensorValue/');
-    const animateWaveData = ref(database, 'animateWave/')
-    const lastDetection = ref(database, 'lastDetection/')
 
     onValue(sensorvalue, (snapshot) => {
       const data = snapshot.val();
       setNewGetApi(true)
-      setPercentageApi(data)
-      setPercentageText(data)
+
+      animateWaveStyle = data
       dispatch(changeValueState(data))
+
+      if (data > 100) {
+        setPercentageApi(100)
+        setPercentageText(100)
+      } else {
+        setPercentageApi(data)
+        setPercentageText(data)
+      }
+
     });
-
-    onValue(animateWaveData, (snapshot) => {
-      const data = snapshot.val();
-      setAnimateWave(data)
-      animateWaveStyle = data;
-      console.log(animateWave)
-    })
-
-    onValue(lastDetection, (snapshot) => {
-      const data = snapshot.val();
-      setLastDetection(data);
-    })
   }
 
   function decrementPercentage() {
@@ -140,10 +129,10 @@ export default function Home() {
       <Header>
         <Percentage>{percentageText}%</Percentage>
 
-        <LastDetecton>
+        {/* <LastDetecton>
           <LastDetectionText>{lastDetection}</LastDetectionText>
           <LastDetectionTitle>{'Última Detectção'}</LastDetectionTitle>
-        </LastDetecton>
+        </LastDetecton> */}
 
       </Header>
       <Wave />
