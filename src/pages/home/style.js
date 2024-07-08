@@ -91,7 +91,7 @@ align-items: center;
 background-color: rgb(162, 234, 242);
 
 width: 12rem;
-height: 4rem;
+height: 8rem;
 border-radius: 12px;
 `
 

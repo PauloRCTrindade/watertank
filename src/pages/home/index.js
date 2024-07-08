@@ -13,6 +13,9 @@ import waterImg from '../assets/waterIcon.png'
 
 import {
   Header,
+  LastDetectionText,
+  LastDetectionTitle,
+  LastDetecton,
   Percentage,
   Wave
 } from "./style";
@@ -23,6 +26,7 @@ export default function Home() {
 
   const [newGetApi, setNewGetApi] = useState(true);
   const [percentageValue, setPercentageValue] = useState(100);
+  const [distanceValue, setDistanceValue] = useState();
   const [percentageText, setPercentageText] = useState()
   const [percentageApi, setPercentageApi] = useState(100)
 
@@ -32,24 +36,38 @@ export default function Home() {
   const dispatch = useDispatch()
 
   async function getApi() {
-    const sensorvalue = ref(database, 'sensorValue/');
+    const sensorvalue = ref(database, 'sensor/distance');
 
     onValue(sensorvalue, (snapshot) => {
       const data = snapshot.val();
       setNewGetApi(true)
+      const min = 30;
+      const max = 90;
+      const value = Math.round(data)
+  
+  
+      const percentage = Math.round((1 - (value - min) / (max - min)) * 100);
 
-      animateWaveStyle = data
-      dispatch(changeValueState(data))
-
-      if (data > 100) {
+      animateWaveStyle = percentage
+      dispatch(changeValueState(percentage))
+      if (percentage > 100) {
         setPercentageApi(100)
         setPercentageText(100)
+        setDistanceValue(data)
       } else {
-        setPercentageApi(data)
-        setPercentageText(data)
-      }
+        setPercentageApi(percentage)
+        setPercentageText(percentage)
+        setDistanceValue(data)
+      }  
+      console.log(updateDateTime())    
 
     });
+  }
+  function updateDateTime() {
+    const now = new Date();
+    const date = now.toLocaleDateString('pt-BR');
+    const time = now.toLocaleTimeString('pt-BR');
+    return`${date} ${time}`;
   }
 
   function decrementPercentage() {
@@ -124,16 +142,17 @@ export default function Home() {
     decrementPercentage()
   }, [percentageValue, percentageApi])
 
+  console.log('distancia',distanceValue)
+
   return (
     <>
       <Header>
         <Percentage>{percentageText}%</Percentage>
-
-        {/* <LastDetecton>
-          <LastDetectionText>{lastDetection}</LastDetectionText>
-          <LastDetectionTitle>{'Última Detectção'}</LastDetectionTitle>
-        </LastDetecton> */}
-
+         <LastDetecton>
+          <LastDetectionText>{`${distanceValue} cm`}</LastDetectionText>
+          <LastDetectionTitle>{'última Detecção'}</LastDetectionTitle>
+          <LastDetectionTitle>{`${updateDateTime()}`}</LastDetectionTitle>
+        </LastDetecton>
       </Header>
       <Wave />
     </>
