@@ -107,7 +107,6 @@ export default function Home() {
     if (status !== 'granted') {
       await Notification.requestPermission(status => {
         localStorage.setItem('status', status)
-        console.log('Notification permission status: ', status)
       })
     }
 
@@ -141,9 +140,6 @@ export default function Home() {
   useEffect(() => {
     decrementPercentage()
   }, [percentageValue, percentageApi])
-
-  console.log('distancia',distanceValue)
-
   return (
     <>
       <Header>
