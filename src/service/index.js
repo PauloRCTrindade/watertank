@@ -10,7 +10,7 @@ const options = {
   },
   data: {
     included_segments: ['Subscribed Users'],
-    contents: {en: 'asasasasas', es: 'Spanish Message'},
+    contents: {en: 'teste', es: 'Spanish Message'},
     name: 'INTERNAL_CAMPAIGN_NAME'
   }
 };
