@@ -46,7 +46,7 @@ export default function Home() {
       const value = Math.round(data)
   
   
-      const percentage = Math.round((1 - (value - min) / (max - min)) * 100);
+      const percentage =  Math.round((1 - (value - min) / (max - min)) * 100);
 
       animateWaveStyle = percentage
       dispatch(changeValueState(percentage))
@@ -58,8 +58,7 @@ export default function Home() {
         setPercentageApi(percentage)
         setPercentageText(percentage)
         setDistanceValue(data)
-      }  
-      console.log(updateDateTime())    
+      }    
 
     });
   }
@@ -86,18 +85,25 @@ export default function Home() {
   }
 
   async function mensagePush() {
-    const title = 'Algo de errado não está certo!'
+    const title = "A caixa d'água está esvaziando "
     const options = {
       firstAlert: {
-        body: "A caixa d'água está abaixo de 70%",
+        body: `${percentageText}%`,
         icon: { waterImg }
       },
       secondAlert: {
-        body: "A caixa d'água está abaixo de 50%",
+        body: `${percentageText}%`,
         icon: { waterImg }
       },
       helpAlert: {
-        body: "Fudeuuuu!!! a caixa d'água está abaixo de 30%",
+        body: `${percentageText}%`,
+        icon: { waterImg }
+      }
+    }
+    const title2 = "A caixa d'água está Enchendo "
+    const options2 = {
+      alert: {
+        body: `${percentageText}%`,
         icon: { waterImg }
       }
     }
@@ -109,8 +115,9 @@ export default function Home() {
         localStorage.setItem('status', status)
       })
     }
-
+    
     if (Notification.permission === 'granted') {
+
       if (percentageApi < 70 && percentageApi >= 50 && listAlert === 'firstAlert') {
         await navigator.serviceWorker.getRegistration().then(reg => {
           reg.showNotification(title, options.firstAlert)
@@ -128,6 +135,23 @@ export default function Home() {
           reg.showNotification(title, options.helpAlert)
         })
         setPushMensage(true)
+      
+      } else if (percentageApi > 80 &&  listAlert === 'secondAlert' ) {
+        await navigator.serviceWorker.getRegistration().then(reg => {
+          reg.showNotification(title2, options2.alert)
+        })  
+        setListAlert('firstAlert')     
+      } else if (percentageApi > 60 &&  listAlert === 'helpAlert' ) {
+        await navigator.serviceWorker.getRegistration().then(reg => {
+          reg.showNotification(title2, options2.alert)
+        })
+        setListAlert('secondAlert')      
+      } else if (percentageApi > 40 && percentageApi <= 60 && pushMensage === true ) {
+        await navigator.serviceWorker.getRegistration().then(reg => {
+          reg.showNotification(title2, options2.alert)
+        })
+        setListAlert('helpAlert')
+        setPushMensage(false)
       }
     }
   }
